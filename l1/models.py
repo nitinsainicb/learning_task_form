@@ -11,22 +11,24 @@ class mcq(models.Model):
 	D=models.CharField(max_length=100)
 	is_mcq=models.BooleanField(default=False)
 
-class answere(models.Model):
+class mcq_answere(models.Model):
 	class options(models.TextChoices):
 		A = "A", _("A")
 		B = "B", _("B")
 		C = "C", _("C")
 		D = "D", _("D")
+	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	ans=models.CharField(max_length=1,choices=options.choices)
 	question=models.ForeignKey(mcq,on_delete=models.CASCADE)
 
 
 
 class true_false(models.Model):	
+	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	question=models.CharField(max_length=200)
 
 
-class ans_given_bool(models.Model):
+class tf_answere(models.Model):
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	question=models.ForeignKey(true_false,on_delete=models.CASCADE)
 	ans=models.BooleanField(default=False)

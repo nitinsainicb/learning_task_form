@@ -1,1 +1,2 @@
-from .v1 import api_scq,api_scq_one
+from .v1 import api_mcq_question,api_mcq_one,api_tf_one,api_tf_question
+from .v2 import api_mcq_answere,api_mcq_answere_one,api_tf_answere,api_tf_answere_one
