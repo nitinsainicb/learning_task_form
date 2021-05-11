@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from ..models import mcq_answere,mcq,true_false,tf_answere
 from django.contrib import auth
+from django.db.models import Q
+
+from django.contrib.auth.models import User
 from ..serializers import UserSerialize,mcqserialize,mcq_ansserialize,true_falseserialize,tf_answereserialize
 from django.contrib.auth.decorators import login_required
 import json
@@ -12,9 +15,17 @@ class api_mcq_answere(APIView):
 	
 	def get(self,request):
 		if request.user.is_authenticated:
-			p=mcq_answere.objects.filter(user=request.user)
-			ser=tf_answereserialize(p,many=True)
-			return Response(ser.data,status=status.HTTP_201_CREATED)
+			teacher=request.GET.get("teacher")
+			user=User.objects.get(username=teacher)
+			q=mcq.objects.filter(user=user)
+			p=[]
+			# for i in q:
+			# 	x=mcq_answere.objects.filter(user=request.user,question=i)
+			# 	for j in x:
+			# 		p.append(j)
+			p=mcq_answere.objects.filter(user=request.user,question__in=q)
+			ser=mcq_ansserialize(p,many=True)
+			return Response(ser.data)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self,request):
