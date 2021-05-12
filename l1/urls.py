@@ -10,5 +10,5 @@ urlpatterns = [
 	path('api_mcq_ans/<int:id>',views.api_mcq_answere_one.as_view(),name='api_mcq_answere_one'),
 	path('api_tf_ans',views.api_tf_answere.as_view(),name='api_tf_answere'),
 	path('api_tf_ans/<int:id>',views.api_tf_answere_one.as_view(),name='api_tf_answere_one'),
-
+	path('user',views.user.as_view(),name='user'),
 ]

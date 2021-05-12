@@ -11,6 +11,22 @@ from django.contrib.auth.models import User
 from ..serializers import UserSerialize,mcqserialize,mcq_ansserialize,true_falseserialize,tf_answereserialize
 from django.contrib.auth.decorators import login_required
 import json
+class user(APIView):
+	def post(self,request):
+		try:
+			d=request.data
+			if 'username' not in d and 'password' not in d:
+				return Response({"error":"username and password requires"},status=status.HTTP_400_BAD_REQUEST)
+			email=''
+			if 'email' in d:
+				email=d['email']
+			usr=User.objects.create(username=d['username'],email=email)
+			usr.set_password(d['password'])
+			usr.save()
+			u=UserSerialize(usr)
+			return Response(u.data)
+		except:
+			return Response({"error":"username taken"},status=status.HTTP_400_BAD_REQUEST)
 class api_mcq_answere(APIView):
 	
 	def get(self,request):
